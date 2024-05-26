@@ -60,6 +60,8 @@ function MovieDetails({ selectedId, onClose, onAddWatched, watched }) {
     function () {
       if (!title) return;
       document.title = `Movie | ${title}`;
+
+      return () => (document.title = "UsePopcorn");
     },
     [title]
   );
