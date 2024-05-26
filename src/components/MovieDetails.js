@@ -7,6 +7,7 @@ const KEY = "91356a83";
 function MovieDetails({ selectedId, onClose, onAddWatched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState("");
 
   const {
     Title: title,
@@ -29,9 +30,11 @@ function MovieDetails({ selectedId, onClose, onAddWatched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       year,
+      userRating,
     };
 
     onAddWatched(newMovie);
+    onClose();
   };
 
   useEffect(() => {
@@ -73,10 +76,16 @@ function MovieDetails({ selectedId, onClose, onAddWatched }) {
           </header>
           <section>
             <div className="rating">
-              <StarRating maxRating={10} size={24} />
-              <button className="btn-add" onClick={handleAdd}>
-                +Add to list
-              </button>
+              <StarRating
+                maxRating={10}
+                size={24}
+                onSetRating={setUserRating}
+              />
+              {userRating && (
+                <button className="btn-add" onClick={handleAdd}>
+                  +Add to list
+                </button>
+              )}
             </div>
             <p>
               <em>{plot}</em>
