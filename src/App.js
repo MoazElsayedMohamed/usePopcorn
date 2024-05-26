@@ -1,6 +1,6 @@
 import Main from "./components/Main";
 import NavBar from "./components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./components/Search";
 import NumResults from "./components/NumResults";
 import Box from "./components/ListBox";
@@ -54,9 +54,23 @@ const tempWatchedData = [
   },
 ];
 
+const KEY = "91356a83";
+
 function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const query = "interstellar";
+
+  useEffect(function () {
+    async function fetchMovie() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+    }
+    fetchMovie();
+  }, []);
 
   return (
     <div>
