@@ -56,6 +56,14 @@ function MovieDetails({ selectedId, onClose, onAddWatched, watched }) {
     getMovieDetails();
   }, [selectedId]);
 
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+    },
+    [title]
+  );
+
   return (
     <>
       {isLoading ? (
