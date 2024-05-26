@@ -36,14 +36,18 @@ function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   };
 
+  const controller = new AbortController();
+
   useEffect(
     function () {
       async function fetchMovie() {
         try {
           setIsLoading(true);
+          setError("");
 
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           );
 
           if (!res.ok)
@@ -53,10 +57,13 @@ function App() {
           if (data.Response === "False") throw new Error("Movie not found!");
 
           setMovies(data.Search);
-          console.log(data.Search);
+          setError("");
         } catch (err) {
           console.log(err.message);
-          setError(err.message);
+
+          if (err.name !== "AbortError") {
+            setError(err.message);
+          }
         } finally {
           setIsLoading(false);
           setError("");
@@ -68,6 +75,8 @@ function App() {
         return;
       }
       fetchMovie();
+
+      return () => controller.abort();
     },
     [query]
   );
