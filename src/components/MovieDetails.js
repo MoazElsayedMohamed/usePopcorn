@@ -4,7 +4,7 @@ import Loader from "./Loader";
 
 const KEY = "91356a83";
 
-function MovieDetails({ selectedId, onClose }) {
+function MovieDetails({ selectedId, onClose, onAddWatched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,7 +18,21 @@ function MovieDetails({ selectedId, onClose }) {
     Actors: actors,
     Director: director,
     Genre: genre,
+    Year: year,
   } = movie;
+
+  const handleAdd = () => {
+    const newMovie = {
+      imdbID: selectedId,
+      title,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      year,
+    };
+
+    onAddWatched(newMovie);
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -60,6 +74,9 @@ function MovieDetails({ selectedId, onClose }) {
           <section>
             <div className="rating">
               <StarRating maxRating={10} size={24} />
+              <button className="btn-add" onClick={handleAdd}>
+                +Add to list
+              </button>
             </div>
             <p>
               <em>{plot}</em>

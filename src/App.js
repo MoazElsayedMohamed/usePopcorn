@@ -7,7 +7,6 @@ import Box from "./components/ListBox";
 import MovieList from "./components/MovieList";
 import WatchedSummary from "./components/WatchedSummary";
 import WatchedMovieList from "./components/WatchedMovieList";
-// import StarRating from "./components/StarRating";
 import MovieDetails from "./components/MovieDetails";
 import Loader from "./components/Loader";
 
@@ -27,6 +26,10 @@ function App() {
 
   const handleCloseMovie = () => {
     setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
   };
 
   useEffect(
@@ -82,7 +85,11 @@ function App() {
         </Box>
         <Box>
           {selectedId ? (
-            <MovieDetails selectedId={selectedId} onClose={handleCloseMovie} />
+            <MovieDetails
+              selectedId={selectedId}
+              onClose={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+            />
           ) : (
             <>
               <WatchedSummary watched={watched} />
@@ -94,74 +101,6 @@ function App() {
     </div>
   );
 }
-
-// function MovieDetails({ selectedId, onClose }) {
-//   const [movie, setMovie] = useState({});
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   const {
-//     Title: title,
-//     Poster: poster,
-//     Runtime: runtime,
-//     imdbRating,
-//     Plot: plot,
-//     Released: released,
-//     Actors: actors,
-//     Director: director,
-//     Genre: genre,
-//   } = movie;
-
-//   useEffect(() => {
-//     setIsLoading(true);
-//     async function getMovieDetails() {
-//       const res = await fetch(
-//         `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
-//       );
-//       const data = await res.json();
-//       setMovie(data);
-//       setIsLoading(false);
-//     }
-//     getMovieDetails();
-//   }, [selectedId]);
-
-//   return (
-//     <>
-//       {isLoading ? (
-//         <Loader />
-//       ) : (
-//         <div className="details">
-//           <header>
-//             <button className="btn-back" onClick={onClose}>
-//               &larr;
-//             </button>
-//             <img src={poster} alt={`Poster of ${movie} movie`} />
-//             <div className="details-overview">
-//               <h2>{title}</h2>
-//               <p>
-//                 {released} &bull; {runtime}
-//               </p>
-//               <p>{genre}</p>
-//               <p>
-//                 <span>⭐</span>
-//                 {imdbRating} IMDb rating
-//               </p>
-//             </div>
-//           </header>
-//           <section>
-//             <div className="rating">
-//               <StarRating maxRating={10} size={24} />
-//             </div>
-//             <p>
-//               <em>{plot}</em>
-//             </p>
-//             <p>Starring {actors}</p>
-//             <p>Directed by {director}</p>
-//           </section>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
 
 function ErrorMessage({ message }) {
   return (
