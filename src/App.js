@@ -25,21 +25,21 @@ function App() {
     return JSON.parse(storeData);
   });
 
-  const handleSelectMovie = (id) => {
+  function handleSelectMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
-  };
+  }
 
-  const handleCloseMovie = () => {
+  function handleCloseMovie() {
     setSelectedId(null);
-  };
+  }
 
-  const handleAddWatched = (movie) => {
+  function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
-  };
+  }
 
-  const handleDeleteWatched = (id) => {
+  function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
-  };
+  }
 
   useEffect(() => {
     localStorage.setItem("watched", JSON.stringify(watched));
