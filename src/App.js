@@ -1,7 +1,7 @@
 import Main from "./components/Main";
 import NavBar from "./components/Navbar";
 import { useEffect, useState, useRef } from "react";
-// import Search from "./components/Search";
+import Search from "./components/Search";
 import NumResults from "./components/NumResults";
 import Box from "./components/ListBox";
 import MovieList from "./components/MovieList";
@@ -79,35 +79,6 @@ function ErrorMessage({ message }) {
     <p className="error">
       <span>⛔</span> {message}
     </p>
-  );
-}
-
-function Search({ query, setQuery }) {
-  const inputEl = useRef(null);
-
-  useEffect(() => {
-    function callback(e) {
-      if (document.activeElement === inputEl.current) return;
-
-      if (e.code === "Enter") {
-        inputEl.current.focus();
-        setQuery("");
-      }
-    }
-
-    document.addEventListener("keydown", callback);
-    return () => document.addEventListener("keydown", callback);
-  });
-
-  return (
-    <input
-      className="search"
-      type="text"
-      placeholder="Search movies..."
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-      ref={inputEl}
-    />
   );
 }
 
