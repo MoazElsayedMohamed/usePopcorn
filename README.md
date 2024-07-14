@@ -1,4 +1,4 @@
-# Forkify
+# UsePopcorn
 
 <div id="top"></div>
 
